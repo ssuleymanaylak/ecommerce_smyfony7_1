@@ -18,8 +18,8 @@
                 <td> {{ category.id}} </td>
                 <td> {{ category.name}} </td>
                 <td> 
-                    <a href="{{ path('app_category_update', {'id':category.id}) }}">Update</a> |
-                    <a href="{{ path('app_category_delete', {'id':category.id}) }}" class="text-danger">Delete</a>
+                    <a class="btn btn-outline-primary" href="{{ path('app_category_update', {'id':category.id}) }}">Update</a>
+                    <a onclick="return confirm('do you really want to delete this category?')" class="btn btn-danger" href="{{ path('app_category_delete', {'id':category.id}) }}">Delete</a>
                 </td>
             </tr>
             {% else %}

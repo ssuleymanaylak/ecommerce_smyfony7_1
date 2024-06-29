@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Users!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <br><br><br>
+        <h1>Users</h1><br><br><br>
+
+        {% include 'layouts/_flash_message.html.twig' %}
+        <table class="table">
+            <tr>
+                <th>id</th>
+                <th>email</th>
+                <th>firstname</th>
+                <th>lastname</th>
+                <th>role</th>
+                <th>action</th>
+            </tr>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.firstName }}</td>
+                    <td>{{ user.lastName }}</td>
+                    <td>
+                        {% if ('ROLE_ADMIN' in user.roles) %}
+                            <span class="text-primary">administrator</span>
+                        {% elseif ('ROLE_EDITOR' in user.roles) %}
+                            <span class="text-success">editor</span>
+                        {% else %}    
+                            <span class="text-secondary">client</span>
+                        {% endif %}
+                
+                        
+                    </td>
+                    <td>
+                        {% if ('ROLE_ADMIN' in user.roles) == false %}
+                            {% if ('ROLE_EDITOR' in user.roles) == false %}
+                                <a onclick="return confirm('do you really want to affect the editor role at this user?')" class="btn btn-outline-primary" href="{{ path('app_user_to_editor',{'id':user.id}) }}">Add like editor</a>
+                            {% else %}
+                                <a onclick="return confirm('do you really want to withdraw the editor role at this user?')" class="btn btn-danger" href="{{ path('app_user_remove_editor_role',{'id':user.id}) }}">Withdraw the editor role</a>
+                            {% endif %}
+
+                            <a onclick="return confirm('do you really want to delete this user?')" href="{{ path('app_user_remove', {'id':user.id}) }}" class="btn btn-danger">Delete</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
